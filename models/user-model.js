@@ -1,25 +1,35 @@
 const mongoose = require("mongoose")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
-
+const Schema = mongoose.Schema;
 
 // userSechma 
-const userSechma = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     username: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     number: { type: String, required: true },
     password: { type: String, required: true },
-    department: { type: String, required: true },
-    JobPosition: { type: String, required: true },
+    department: { type: String, required: false },
+    jobPosition: { type: String, required: true }, 
     jobRole: { type: String, required: false },
     city: { type: String, required: false },
-    state: { type: String, required: false},
-    gender: { type: String, required: false},
-    profileIMG: { type: String, required: false},
-})
+    state: { type: String, required: false },
+    gender: { type: String, required: false },
+    profileIMG: { type: String, required: false },
+    managerId: { type: Schema.Types.ObjectId, ref: 'User' }, 
+    teamLeaderId: { type: Schema.Types.ObjectId, ref: 'User' },
+    teamId: { type: Schema.Types.ObjectId, ref: 'Team' }, 
+}, { timestamps: true });
 
 
-userSechma.pre("save", async function (next) {
+const teamSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    teamLeader: { type: Schema.Types.ObjectId, ref: 'User', required: true }, // Team Leader reference
+    members: [{ type: Schema.Types.ObjectId, ref: 'User' }] // Team Members reference
+});
+
+
+userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
     try {
         const salt = await bcrypt.genSalt(10);
@@ -32,12 +42,12 @@ userSechma.pre("save", async function (next) {
 
 
 // Password comper logic
-userSechma.methods.ComparePassword = async function (password) {
+userSchema.methods.ComparePassword = async function (password) {
     return await bcrypt.compare(password, this.password);
 }
 
 // token genertion logic
-userSechma.methods.generateToken = async function () {
+userSchema.methods.generateToken = async function () {
     try {
         return jwt.sign({
             userId: this._id.toString(),
@@ -54,5 +64,6 @@ userSechma.methods.generateToken = async function () {
     }
 }
 
-const User = new mongoose.model("User", userSechma)
-module.exports = User 
+const User = new mongoose.model("User", userSchema)
+const Team = mongoose.model('Team', teamSchema);
+module.exports = { User, Team };

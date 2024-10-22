@@ -1,9 +1,8 @@
-const User = require("../models/user-model")
-
+const { User } = require("../models/user-model");
 //  Register logic 
 const register = async (req, res) => {
   try {
-      const { username, email, number, password, city, state, gender, jobRole, department, JobPosition } = req.body;
+      const { username, email, number, password, city, state, gender, jobRole, department, jobPosition } = req.body;
 
       // Check if user already exists
       const userExist = await User.findOne({ email });
@@ -23,7 +22,7 @@ const register = async (req, res) => {
           gender,
           jobRole,
           department,
-          JobPosition,
+          jobPosition,
           profileIMG: req.file.path // Save the path to the uploaded image
       });
 
@@ -122,7 +121,7 @@ const user = async (req, res, next) => {
   }
 }
 
-const getAllUsers = async (req, res) => {
+const registerUser = async (req, res) => {
   try {
     const loggedInUserId = req.user._id; // Logged-in user ID from middleware
 
@@ -135,7 +134,7 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-module.exports = { register, login, user, checkUser, getAllUsers }
+module.exports = { register, login, user, checkUser, registerUser }
 
 
 

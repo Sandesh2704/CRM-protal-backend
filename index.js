@@ -2,21 +2,16 @@ require("dotenv").config()
 const express = require("express")
 const app = express()
 const authRoute = require("./Router/auth-router")
+const teamManage = require("./Router/team-router")
 const connectDB = require("./dbconnect/dbconnect")
 const cors = require('cors');
 const path = require('path');
 require("dotenv").config();
 // app.use(cors());
-// app.use(cors({
-//     origin: ['http://localhost:3000'], // Change this to your frontend URL
-//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'HEAD'],
-//     credentials: true
-// }));
-
 app.use(cors({
-    origin: ['https://crm-protal-frontend.vercel.app/'], // Change this to your frontend URL
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'HEAD'],
-    credentials: true
+    origin: ['http://localhost:3000'], // Frontend URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true // If you need to handle cookies or session tokens
 }));
 
 
@@ -27,6 +22,9 @@ app.use(express.json())
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 //  to get all functionality of auth-thentication for client and  website 
+app.use("/teamManage", teamManage)
+
+// 
 app.use("/auth", authRoute)
 
 
