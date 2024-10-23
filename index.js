@@ -2,7 +2,7 @@ require("dotenv").config()
 const express = require("express")
 const app = express()
 const authRoute = require("./Router/auth-router")
-const teamManage = require("./Router/team-router")
+const teamManage = require("./Router/team-leader-router")
 const connectDB = require("./dbconnect/dbconnect")
 const cors = require('cors');
 const path = require('path');

@@ -16,6 +16,8 @@ const userSchema = new mongoose.Schema({
     state: { type: String, required: false },
     gender: { type: String, required: false },
     profileIMG: { type: String, required: false },
+    joiningDate: {type: String, require: false },
+    founderId: { type: Schema.Types.ObjectId, ref: 'User' }, 
     managerId: { type: Schema.Types.ObjectId, ref: 'User' }, 
     teamLeaderId: { type: Schema.Types.ObjectId, ref: 'User' },
     teamId: { type: Schema.Types.ObjectId, ref: 'Team' }, 
@@ -27,6 +29,13 @@ const teamSchema = new mongoose.Schema({
     teamLeader: { type: Schema.Types.ObjectId, ref: 'User', required: true }, // Team Leader reference
     members: [{ type: Schema.Types.ObjectId, ref: 'User' }] // Team Members reference
 });
+
+const founderteamSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    founder: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+})
+
+
 
 
 userSchema.pre("save", async function (next) {
