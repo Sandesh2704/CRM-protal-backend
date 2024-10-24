@@ -3,10 +3,14 @@ const express = require("express")
 const app = express()
 const authRoute = require("./Router/auth-router")
 const teamManage = require("./Router/team-leader-router")
+const founderManage = require("./Router/founder-router")
+const managerManage =  require("./Router/manger-router")
+const taskManage =  require("./Router/task-router")
 const connectDB = require("./dbconnect/dbconnect")
 const cors = require('cors');
 const path = require('path');
-require("dotenv").config();
+
+
 // app.use(cors());
 app.use(cors({
     origin: ['http://localhost:3000'], // Frontend URL
@@ -21,10 +25,15 @@ app.use(express.json())
 //  to get all functionality for image uplaod  
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-//  to get all functionality of auth-thentication for client and  website 
 app.use("/teamManage", teamManage)
 
-// 
+app.use("/founderManage", founderManage)
+
+app.use("/managerManage", managerManage)
+
+app.use("/taskManage", taskManage)
+
+// auth 
 app.use("/auth", authRoute)
 
 

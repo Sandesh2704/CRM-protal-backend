@@ -14,7 +14,8 @@ const addTeamMember = async (req, res) => {
             city: req.body.city,
             state: req.body.state,
             gender: req.body.gender,
-            profileIMG: req.file.path, // Save the uploaded file name
+            profileIMG: req.file.path, 
+            joiningDate: req.body.joiningDate
         };
 
         // Your existing logic
@@ -53,49 +54,6 @@ const addTeamMember = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
-
-// const addTeamMember = async (req, res) => {
-//     try {
-//         const { teamLeaderId, memberData } = req.body;
-
-//         const teamLeader = await User.findById(teamLeaderId);
-//         if (!teamLeader || teamLeader.jobPosition !== 'Team Leader') {
-//             return res.status(400).json({ message: 'Invalid team leader.' });
-//         }
-
-//         const existingMember = await User.findOne({ email: memberData.email });
-//         if (existingMember) {
-//             return res.status(400).json({ message: 'Email already exists.' });
-//         }
-
-//         const newMember = new User({
-//             ...memberData,
-//             managerId: teamLeader.managerId,
-//             teamLeaderId: teamLeaderId,
-//             // jobPosition: '',
-//         });
-
-//         await newMember.save();
-
-        
-//         let team = await Team.findOne({ teamLeader: teamLeaderId });
-//         if (!team) {
-            
-//             team = new Team({
-//                 name: `${teamLeader.username}'s Team`,
-//                 teamLeader: teamLeaderId,
-//                 members: [],
-//             });
-//         }
-//         team.members.push(newMember._id);
-//         await team.save();
-        
-//         res.status(201).json({ message: 'Team member added successfully', member: newMember });
-//     } catch (err) {
-//         console.error('Error in addTeamMember:', err);
-//         res.status(500).json({ message: 'Server error' });
-//     }
-// };
 
 const getTeamMember = async (req, res) => {
     try {

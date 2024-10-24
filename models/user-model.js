@@ -30,13 +30,6 @@ const teamSchema = new mongoose.Schema({
     members: [{ type: Schema.Types.ObjectId, ref: 'User' }] // Team Members reference
 });
 
-const founderteamSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    founder: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-})
-
-
-
 
 userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();

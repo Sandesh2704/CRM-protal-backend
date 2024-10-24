@@ -9,13 +9,9 @@ const storage = multer.diskStorage({
     }
 });
 
-// No file type validation, allows any file type
-// const fileFilter = (req, file, cb) => {
-//     cb(null, true);  // Accept any file type
-// };
 
 const fileFilter = (req, file, cb) => {
-    const allowedTypes = /jpeg|jpg|png|gif/;
+    const allowedTypes = /jpeg|jpg|png|avif|gif/;
     const extName = allowedTypes.test(path.extname(file.originalname).toLowerCase());
     const mimeType = allowedTypes.test(file.mimetype);
     if (extName && mimeType) {
